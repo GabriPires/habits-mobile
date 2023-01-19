@@ -8,7 +8,11 @@ import { Habit } from '../screens/Habit';
 
 export const AppRoutes = () => {
   return (
-    <Navigator>
+    <Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Screen name="home" component={Home} />
       <Screen name="new" component={New} />
       <Screen name="habit" component={Habit} />
