@@ -30,7 +30,7 @@ export const Checkbox = ({
       ) : (
         <View className="h-8 w-8 bg-zinc-900 rounded-lg" />
       )}
-      <Text className="text-white ml-3">{title}</Text>
+      <Text className="text-white ml-3 font-semibold">{title}</Text>
     </TouchableOpacity>
   );
 };

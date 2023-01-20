@@ -3,6 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import { BackButton } from '../components/BackButton';
 import dayjs from 'dayjs';
 import { ProgressBar } from '../components/ProgressBar';
+import { Checkbox } from '../components/Checkbox';
 
 interface HabitParams {
   date: string;
@@ -33,6 +34,11 @@ export const Habit = () => {
         </Text>
 
         <ProgressBar progress={60} />
+
+        <View className="mt-6">
+          <Checkbox title="Beber 2L de água" />
+          <Checkbox title="Ler um capítulo de um livro" checked />
+        </View>
       </ScrollView>
     </View>
   );
