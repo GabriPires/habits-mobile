@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
@@ -10,6 +11,7 @@ import { Feather } from '@expo/vector-icons';
 import { BackButton } from '../components/BackButton';
 import { Checkbox } from '../components/Checkbox';
 import colors from 'tailwindcss/colors';
+import { api } from '../lib/axios';
 
 const availableWeekDays = [
   'Domingo',
@@ -23,6 +25,7 @@ const availableWeekDays = [
 
 export const New = () => {
   const [weekDays, setWeekDays] = useState<number[]>([]);
+  const [title, setTitle] = useState('');
 
   const handleToggleWeekDay = (weekDayIndex: number) => {
     if (weekDays.includes(weekDayIndex)) {
@@ -31,6 +34,31 @@ export const New = () => {
       );
     } else {
       setWeekDays((prevState) => [...prevState, weekDayIndex]);
+    }
+  };
+
+  const handleCreateNewHabit = async () => {
+    try {
+      if (!title.trim() || weekDays.length === 0) {
+        Alert.alert(
+          'Novo hábito',
+          'Informe o nome do hábito e escolha a periodicidade',
+        );
+        return;
+      }
+
+      await api.post('habits', {
+        title,
+        weekDays,
+      });
+
+      setTitle('');
+      setWeekDays([]);
+
+      Alert.alert('Novo hábito', 'Hábito criado com sucesso');
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Novo hábito', 'Não foi possível criar um novo hábito');
     }
   };
 
@@ -51,9 +79,11 @@ export const New = () => {
         </Text>
 
         <TextInput
+          value={title}
           placeholder="ex: Exercícios, dormir bem, etc.."
           placeholderTextColor={colors.zinc[400]}
           className="h-12 pl-4 rounded-lg mt-3 bg-zinc-900 text-white border-2 border-zinc-800 focus:border-green-600"
+          onChangeText={setTitle}
         />
 
         <Text className="mt-4 mb-3 text-white font-semibold text-base">
@@ -74,6 +104,7 @@ export const New = () => {
           className={
             'w-full h-14 flex-row items-center justify-center bg-green-600 rounded-md mt-6'
           }
+          onPress={handleCreateNewHabit}
         >
           <Feather name="check" size={20} color={colors.white} />
           <Text className="font-semibold text-base text-white ml-2">
